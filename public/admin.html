@@ -1,12 +1,84 @@
-<h2>Admin Dashboard</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel - Hoax Analyzer</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
 
-<button onclick="loadSubmissions('menunggu_validasi')">Menunggu</button>
-<button onclick="loadSubmissions('terverifikasi')">Terverifikasi</button>
-<button onclick="loadSubmissions('ditolak')">Ditolak</button>
+<div class="container">
 
-<div id="list"></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2>Hoax Analyzer</h2>
+
+    <button onclick="showSection('dashboard')">Dashboard</button>
+    <button onclick="showSection('upload')">Upload Official</button>
+    <button onclick="showSection('status')">Status</button>
+
+    <hr>
+
+    <button onclick="logout()" class="logout-btn">Logout</button>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+
+    <!-- DASHBOARD SECTION -->
+    <section id="dashboardSection">
+      <h1>Dashboard</h1>
+
+      <div class="stats-container">
+        <div class="card">
+          <h3>Total</h3>
+          <p id="totalCount">0</p>
+        </div>
+        <div class="card">
+          <h3>Menunggu</h3>
+          <p id="menungguCount">0</p>
+        </div>
+        <div class="card">
+          <h3>Terverifikasi</h3>
+          <p id="validCount">0</p>
+        </div>
+        <div class="card">
+          <h3>Ditolak</h3>
+          <p id="ditolakCount">0</p>
+        </div>
+      </div>
+
+      <canvas id="statsChart"></canvas>
+    </section>
+
+    <!-- UPLOAD SECTION -->
+    <section id="uploadSection" style="display:none;">
+      <h1>Upload Official News</h1>
+
+      <input type="text" id="officialTitle" placeholder="Judul Berita">
+      <input type="file" id="officialImage">
+      <button onclick="uploadOfficial()">Upload</button>
+
+      <p id="uploadResult"></p>
+    </section>
+
+    <!-- STATUS SECTION -->
+    <section id="statusSection" style="display:none;">
+      <h1>Status Submission</h1>
+
+      <div class="tabs">
+        <button onclick="loadSubmissions('menunggu_validasi')">Menunggu</button>
+        <button onclick="loadSubmissions('terverifikasi')">Terverifikasi</button>
+        <button onclick="loadSubmissions('ditolak')">Ditolak</button>
+      </div>
+
+      <div id="list" class="submission-list"></div>
+    </section>
+
+  </main>
+
+</div>
 
 <script src="js/admin.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<h3>Statistik Submission</h3>
-<canvas id="statsChart" width="400" height="200"></canvas>
+</body>
+</html>

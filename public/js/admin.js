@@ -12,13 +12,22 @@ async function loadSubmissions(status) {
   let html = "";
 
   data.forEach(item => {
+
+    let labelClass = "status-low";
+    if (item.similarity_label === "tinggi") labelClass = "status-high";
+    if (item.similarity_label === "sedang") labelClass = "status-medium";
+
     html += `
-      <div style="border:1px solid #ccc; margin:10px; padding:10px;">
-        <p>ID: ${item.id}</p>
-        <p>Similarity: ${item.similarity_score}</p>
-        <p>Label: ${item.similarity_label}</p>
-        <button onclick="validate(${item.id}, 'terverifikasi')">Valid</button>
-        <button onclick="validate(${item.id}, 'ditolak')">Tolak</button>
+      <div class="submission-card">
+        <p><strong>ID:</strong> ${item.id}</p>
+        <p><strong>Similarity:</strong> ${item.similarity_score.toFixed(2)}</p>
+        <p><strong>Label:</strong> 
+          <span class="${labelClass}">
+            ${item.similarity_label}
+          </span>
+        </p>
+        <button class="action-btn valid-btn" onclick="validate(${item.id}, 'terverifikasi')">Valid</button>
+        <button class="action-btn reject-btn" onclick="validate(${item.id}, 'ditolak')">Tolak</button>
       </div>
     `;
   });
@@ -56,6 +65,12 @@ async function loadStats() {
 }
 
 function renderChart(data) {
+
+  document.getElementById("totalCount").innerText = data.total;
+  document.getElementById("menungguCount").innerText = data.menunggu;
+  document.getElementById("validCount").innerText = data.valid;
+  document.getElementById("ditolakCount").innerText = data.ditolak;
+
   const ctx = document.getElementById("statsChart").getContext("2d");
 
   new Chart(ctx, {
@@ -72,6 +87,50 @@ function renderChart(data) {
       }]
     }
   });
+}
+
+async function uploadOfficial() {
+  const title = document.getElementById("officialTitle").value;
+  const file = document.getElementById("officialImage").files[0];
+
+  const formData = new FormData();
+  formData.append("title", title);
+  formData.append("image", file);
+
+  const token = localStorage.getItem("token");
+
+  const response = await fetch("/api/upload-official", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    },
+    body: formData
+  });
+
+  const data = await response.json();
+
+  document.getElementById("uploadResult").innerText = data.message || "Upload selesai";
+}
+
+function showSection(section) {
+  document.getElementById("dashboardSection").style.display = "none";
+  document.getElementById("uploadSection").style.display = "none";
+  document.getElementById("statusSection").style.display = "none";
+
+  if (section === "dashboard") {
+    document.getElementById("dashboardSection").style.display = "block";
+  }
+  if (section === "upload") {
+    document.getElementById("uploadSection").style.display = "block";
+  }
+  if (section === "status") {
+    document.getElementById("statusSection").style.display = "block";
+  }
+}
+
+function logout() {
+  localStorage.removeItem("token");
+  window.location.href = "login.html";
 }
 
 window.onload = function() {
