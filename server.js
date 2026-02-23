@@ -17,6 +17,8 @@ app.use("/api", submissionRoutes);
 
 app.use(express.static("public"));
 
+app.use("/uploads", express.static("uploads"));
+
 app.get(
   "/admin-only",
   authenticateToken,

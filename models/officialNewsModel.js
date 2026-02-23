@@ -23,8 +23,16 @@ const getAllOfficialTexts = (callback) => {
   );
 };
 
+const getAllOfficialNews = (callback) => {
+  db.query(
+    "SELECT * FROM official_news ORDER BY created_at DESC",
+    callback
+  );
+};
+
 module.exports = {
   createOfficialNews,
   findByHash,
-  getAllOfficialTexts
+  getAllOfficialTexts,
+  getAllOfficialNews
 };

@@ -6,13 +6,14 @@ const uploadOfficialNews = async (req, res) => {
   try {
     const title = req.body.title;
     const filePath = req.file.path;
+    const normalizedPath = filePath.replace(/\\/g, "/");
 
     const imageHash = generateImageHash(filePath);
     const extractedText = await extractText(filePath);
 
     officialNewsModel.createOfficialNews(
       title,
-      filePath,
+      normalizedPath,
       imageHash,
       extractedText,
       (err) => {
@@ -29,6 +30,15 @@ const uploadOfficialNews = async (req, res) => {
   }
 };
 
+const getAllOfficial = (req, res) => {
+  officialNewsModel.getAllOfficialNews((err, results) => {
+    if (err) return res.status(500).json({ message: "Gagal ambil data" });
+
+    res.json(results);
+  });
+};
+
 module.exports = {
-  uploadOfficialNews
+  uploadOfficialNews,
+  getAllOfficial
 };

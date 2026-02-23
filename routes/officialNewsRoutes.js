@@ -13,4 +13,11 @@ router.post(
   officialNewsController.uploadOfficialNews
 );
 
+router.get(
+  "/official",
+  authenticateToken,
+  authorizeRole("admin"),
+  officialNewsController.getAllOfficial
+);
+
 module.exports = router;

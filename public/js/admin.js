@@ -11,8 +11,7 @@ async function loadSubmissions(status) {
 
   let html = "";
 
-  data.forEach(item => {
-
+  data.forEach((item) => {
     let labelClass = "status-low";
     if (item.similarity_label === "tinggi") labelClass = "status-high";
     if (item.similarity_label === "sedang") labelClass = "status-medium";
@@ -21,7 +20,7 @@ async function loadSubmissions(status) {
       <div class="submission-card">
         <p><strong>ID:</strong> ${item.id}</p>
         <p><strong>Similarity:</strong> ${item.similarity_score.toFixed(2)}</p>
-        <p><strong>Label:</strong> 
+        <p><strong>Label:</strong>
           <span class="${labelClass}">
             ${item.similarity_label}
           </span>
@@ -47,6 +46,9 @@ async function validate(id, status) {
     body: JSON.stringify({ final_status: status })
   });
 
+  alert("Status diperbarui");
+}
+
 async function loadStats() {
   const token = localStorage.getItem("token");
 
@@ -57,15 +59,38 @@ async function loadStats() {
   });
 
   const data = await response.json();
-
   renderChart(data);
 }
 
-  alert("Status diperbarui");
+async function loadGallery() {
+  const token = localStorage.getItem("token");
+
+  const response = await fetch("/api/official", {
+    headers: {
+      Authorization: "Bearer " + token
+    }
+  });
+
+  const data = await response.json();
+
+  let html = "";
+
+  data.forEach((item) => {
+    const safeImagePath = String(item.image_path || "").replace(/\\/g, "/");
+
+    html += `
+      <div class="gallery-card">
+        <img src="/${safeImagePath}" alt="${item.title || "Official image"}" />
+        <h4>${item.title}</h4>
+        <p><strong>Hash:</strong><br>${item.image_hash.substring(0, 20)}...</p>
+      </div>
+    `;
+  });
+
+  document.getElementById("galleryList").innerHTML = html;
 }
 
 function renderChart(data) {
-
   document.getElementById("totalCount").innerText = data.total;
   document.getElementById("menungguCount").innerText = data.menunggu;
   document.getElementById("validCount").innerText = data.valid;
@@ -77,14 +102,12 @@ function renderChart(data) {
     type: "bar",
     data: {
       labels: ["Menunggu", "Terverifikasi", "Ditolak"],
-      datasets: [{
-        label: "Jumlah Submission",
-        data: [
-          data.menunggu,
-          data.valid,
-          data.ditolak
-        ]
-      }]
+      datasets: [
+        {
+          label: "Jumlah Submission",
+          data: [data.menunggu, data.valid, data.ditolak]
+        }
+      ]
     }
   });
 }
@@ -108,7 +131,6 @@ async function uploadOfficial() {
   });
 
   const data = await response.json();
-
   document.getElementById("uploadResult").innerText = data.message || "Upload selesai";
 }
 
@@ -116,15 +138,23 @@ function showSection(section) {
   document.getElementById("dashboardSection").style.display = "none";
   document.getElementById("uploadSection").style.display = "none";
   document.getElementById("statusSection").style.display = "none";
+  document.getElementById("gallerySection").style.display = "none";
 
   if (section === "dashboard") {
     document.getElementById("dashboardSection").style.display = "block";
   }
+
   if (section === "upload") {
     document.getElementById("uploadSection").style.display = "block";
   }
+
   if (section === "status") {
     document.getElementById("statusSection").style.display = "block";
+  }
+
+  if (section === "gallery") {
+    document.getElementById("gallerySection").style.display = "block";
+    loadGallery();
   }
 }
 
@@ -133,6 +163,6 @@ function logout() {
   window.location.href = "login.html";
 }
 
-window.onload = function() {
+window.onload = function () {
   loadStats();
 };
