@@ -1,84 +1,266 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Admin Panel - Hoax Analyzer</title>
-  <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Sulteng Hoax Analyzer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* CSS INTERNAL - Tema Profesional Kominfo */
+        :root {
+            --primary-blue: #1e3a8a;
+            --sidebar-bg: #0f172a;
+            --bg-light: #f1f5f9;
+            --text-dark: #1e293b;
+            --accent-blue: #3b82f6;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR STYLING */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: white;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100%;
+        }
+
+        .sidebar h2 {
+            font-size: 20px;
+            color: #38bdf8;
+            margin-bottom: 40px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .sidebar button {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            padding: 12px 15px;
+            text-align: left;
+            font-size: 15px;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+
+        .sidebar button:hover {
+            background-color: #1e293b;
+            color: white;
+        }
+
+        .sidebar hr {
+            border: 0;
+            border-top: 1px solid #334155;
+            margin: 20px 0;
+        }
+
+        .logout-btn {
+            color: #ef4444 !important;
+            border: 1px solid #ef444444 !important;
+            margin-top: auto;
+        }
+
+        /* MAIN CONTENT STYLING */
+        .main {
+            margin-left: 310px; /* Lebar sidebar + padding */
+            padding: 40px;
+            width: 100%;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 30px;
+            color: var(--primary-blue);
+        }
+
+        /* CARD STATS STYLING */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid var(--accent-blue);
+        }
+
+        .card h3 {
+            margin: 0;
+            font-size: 14px;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .card p {
+            margin: 10px 0 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
+
+        /* FORM STYLING (UPLOAD) */
+        #uploadSection .upload-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+        }
+
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* STATUS SECTION TABS */
+        .tabs {
+            margin-bottom: 25px;
+        }
+
+        .tabs button {
+            background: #e2e8f0;
+            border: none;
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .tabs button:focus {
+            background-color: var(--accent-blue);
+            color: white;
+        }
+
+        #statsChart {
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .submission-list {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            min-height: 200px;
+        }
+    </style>
 </head>
 <body>
 
 <div class="container">
 
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <h2>Hoax Analyzer</h2>
+    <aside class="sidebar">
+        <h2>SULTENG<br><small style="font-size: 10px; color: #94a3b8;">Hoax Analyzer</small></h2>
 
-    <button onclick="showSection('dashboard')">Dashboard</button>
-    <button onclick="showSection('upload')">Upload Official</button>
-    <button onclick="showSection('status')">Status</button>
+        <button onclick="showSection('dashboard')">Dashboard</button>
+        <button onclick="showSection('upload')">Upload Official</button>
+        <button onclick="showSection('status')">Status Submission</button>
 
-    <hr>
+        <hr>
 
-    <button onclick="logout()" class="logout-btn">Logout</button>
-  </aside>
+        <button onclick="logout()" class="logout-btn">Logout</button>
+    </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
+    <main class="main">
 
-    <!-- DASHBOARD SECTION -->
-    <section id="dashboardSection">
-      <h1>Dashboard</h1>
+        <section id="dashboardSection">
+            <h1>Dashboard Overview</h1>
 
-      <div class="stats-container">
-        <div class="card">
-          <h3>Total</h3>
-          <p id="totalCount">0</p>
-        </div>
-        <div class="card">
-          <h3>Menunggu</h3>
-          <p id="menungguCount">0</p>
-        </div>
-        <div class="card">
-          <h3>Terverifikasi</h3>
-          <p id="validCount">0</p>
-        </div>
-        <div class="card">
-          <h3>Ditolak</h3>
-          <p id="ditolakCount">0</p>
-        </div>
-      </div>
+            <div class="stats-container">
+                <div class="card" style="border-left-color: #64748b;">
+                    <h3>Total Dokumen</h3>
+                    <p id="totalCount">0</p>
+                </div>
+                <div class="card" style="border-left-color: #f59e0b;">
+                    <h3>Menunggu Validasi</h3>
+                    <p id="menungguCount">0</p>
+                </div>
+                <div class="card" style="border-left-color: #10b981;">
+                    <h3>Terverifikasi</h3>
+                    <p id="validCount">0</p>
+                </div>
+                <div class="card" style="border-left-color: #ef4444;">
+                    <h3>Ditolak</h3>
+                    <p id="ditolakCount">0</p>
+                </div>
+            </div>
 
-      <canvas id="statsChart"></canvas>
-    </section>
+            <div style="background: white; padding: 20px; border-radius: 12px;">
+                <h3 style="margin-top: 0;">Statistik Verifikasi Berita</h3>
+                <canvas id="statsChart"></canvas>
+            </div>
+        </section>
 
-    <!-- UPLOAD SECTION -->
-    <section id="uploadSection" style="display:none;">
-      <h1>Upload Official News</h1>
+        <section id="uploadSection" style="display:none;">
+            <h1>Upload Official News</h1>
+            <div class="upload-card">
+                <label style="font-size: 14px; margin-bottom: 5px; display: block;">Judul Rilis Resmi</label>
+                <input type="text" id="officialTitle" placeholder="Masukkan judul berita/infografis">
+                
+                <label style="font-size: 14px; margin-bottom: 5px; display: block;">File Dokumen (Image/PDF)</label>
+                <input type="file" id="officialImage">
+                
+                <button onclick="uploadOfficial()" class="btn-primary">Daftarkan Dokumen</button>
+                <p id="uploadResult" style="margin-top: 15px; font-size: 14px;"></p>
+            </div>
+        </section>
 
-      <input type="text" id="officialTitle" placeholder="Judul Berita">
-      <input type="file" id="officialImage">
-      <button onclick="uploadOfficial()">Upload</button>
+        <section id="statusSection" style="display:none;">
+            <h1>Status Submission</h1>
 
-      <p id="uploadResult"></p>
-    </section>
+            <div class="tabs">
+                <button onclick="loadSubmissions('menunggu_validasi')">Menunggu</button>
+                <button onclick="loadSubmissions('terverifikasi')">Terverifikasi</button>
+                <button onclick="loadSubmissions('ditolak')">Ditolak</button>
+            </div>
 
-    <!-- STATUS SECTION -->
-    <section id="statusSection" style="display:none;">
-      <h1>Status Submission</h1>
+            <div id="list" class="submission-list">
+                <p style="color: #94a3b8;">Pilih kategori status untuk memuat data...</p>
+            </div>
+        </section>
 
-      <div class="tabs">
-        <button onclick="loadSubmissions('menunggu_validasi')">Menunggu</button>
-        <button onclick="loadSubmissions('terverifikasi')">Terverifikasi</button>
-        <button onclick="loadSubmissions('ditolak')">Ditolak</button>
-      </div>
-
-      <div id="list" class="submission-list"></div>
-    </section>
-
-  </main>
+    </main>
 
 </div>
 
 <script src="js/admin.js"></script>
+
 </body>
 </html>

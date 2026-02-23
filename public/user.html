@@ -1,8 +1,159 @@
-<h2>User Dashboard</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - Sulteng Hoax Analyzer</title>
+    <style>
+        /* CSS INTERNAL: Fokus pada kemudahan akses masyarakat */
+        :root {
+            --primary-blue: #2563eb;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+        }
 
-<input type="file" id="image">
-<button onclick="submitImage()">Submit</button>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
 
-<div id="result"></div>
+        /* Navigasi Sederhana */
+        nav {
+            width: 100%;
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 1px solid #334155;
+            background-color: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+        }
 
-<script src="js/user.js"></script>
+        .container {
+            max-width: 600px;
+            width: 90%;
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #38bdf8;
+        }
+
+        p.description {
+            color: #94a3b8;
+            margin-bottom: 40px;
+        }
+
+        /* Area Upload */
+        .upload-card {
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            border: 2px dashed #334155;
+            transition: all 0.3s ease;
+        }
+
+        .upload-card:hover {
+            border-color: var(--primary-blue);
+            background-color: #1e293b99;
+        }
+
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            margin-bottom: 25px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Customizing file input look (optional, but makes it cleaner) */
+        input::file-selector-button {
+            background: #334155;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 15px;
+            transition: 0.3s;
+        }
+
+        input::file-selector-button:hover {
+            background: #475569;
+        }
+
+        button {
+            background-color: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Area Hasil */
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 12px;
+            font-weight: 500;
+            min-height: 50px;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 30px;
+            font-size: 12px;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <b style="color: #38bdf8; letter-spacing: 1px;">SULTENG HOAX ANALYZER</b>
+    </nav>
+
+    <div class="container">
+        <h2>Verifikasi Informasi</h2>
+        <p class="description">
+            Unggah gambar atau rilis berita yang Anda terima untuk mengecek keasliannya melalui sidik jari digital (SHA-256).
+        </p>
+
+        <div class="upload-card">
+            <input type="file" id="image" accept="image/*, application/pdf">
+            
+            <button onclick="submitImage()">ANALISIS SEKARANG</button>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <div class="footer">
+        &copy; 2026 IKP Kominfo Provinsi Sulawesi Tengah
+    </div>
+
+    <script src="js/user.js"></script>
+
+</body>
+</html>

@@ -1,14 +1,130 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-  <title>Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sulteng Hoax Analyzer</title>
+    <style>
+        /* CSS INTERNAL: Memberikan kesan formal dan terpercaya */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #f8fafc;
+        }
+
+        .login-container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+        }
+
+        .header-logo {
+            margin-bottom: 25px;
+        }
+
+        .header-logo h2 {
+            color: #1e3a8a; /* Biru Tua Pemerintah */
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .header-logo p {
+            color: #64748b;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #334155;
+            font-size: 13px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f1f5f9;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #1e3a8a;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1d4ed8;
+        }
+
+        .footer-note {
+            margin-top: 25px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+    </style>
 </head>
 <body>
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Username">
-  <input type="password" id="password" placeholder="Password">
-  <button onclick="login()">Login</button>
 
-  <script src="js/auth.js"></script>
+    <div class="login-container">
+        <div class="header-logo">
+            <h2>SULTENG</h2>
+            <p>Hoax Analyzer Portal</p>
+        </div>
+
+        <div class="input-group">
+            <label for="username">Nama Pengguna / Email</label>
+            <input type="text" id="username" placeholder="Masukkan username">
+        </div>
+
+        <div class="input-group">
+            <label for="password">Kata Sandi</label>
+            <input type="password" id="password" placeholder="Masukkan password">
+        </div>
+
+        <button onclick="login()">MASUK</button>
+
+        <div class="footer-note">
+            &copy; 2026 IKP Kominfo Provinsi Sulawesi Tengah
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
 </body>
 </html>
