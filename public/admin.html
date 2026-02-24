@@ -232,15 +232,25 @@
         <section id="uploadSection" style="display:none;">
             <h1>Upload Official News</h1>
             <div class="upload-card">
-                <label style="font-size: 14px; margin-bottom: 5px; display: block;">Judul Rilis Resmi</label>
-                <input type="text" id="officialTitle" placeholder="Masukkan judul berita/infografis">
-                
-                <label style="font-size: 14px; margin-bottom: 5px; display: block;">File Dokumen (Image/PDF)</label>
-                <input type="file" id="officialImage">
-                
-                <button onclick="uploadOfficial()" class="btn-primary">Daftarkan Dokumen</button>
-                <p id="uploadResult" style="margin-top: 15px; font-size: 14px;"></p>
-            </div>
+    <label style="font-size: 14px; margin-bottom: 5px; display: block;">Judul Rilis Resmi</label>
+    <input type="text" id="officialTitle" placeholder="Masukkan judul berita/infografis">
+    
+    <label style="font-size: 14px; margin-bottom: 5px; display: block;">Kategori Informasi</label>
+    <select id="officialCategory" style="width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 8px; display: block; background-color: white;">
+        <option value="" disabled selected>Pilih Kategori...</option>
+        <option value="layanan_publik">Layanan Publik</option>
+        <option value="bencana">Informasi Bencana</option>
+        <option value="kesehatan">Kesehatan</option>
+        <option value="berita_pemprov">Berita Pemprov</option>
+        <option value="pendidikan">Pendidikan</option>
+    </select>
+    
+    <label style="font-size: 14px; margin-bottom: 5px; display: block;">File Dokumen (Image/PDF)</label>
+    <input type="file" id="officialImage">
+    
+    <button onclick="uploadOfficial()" class="btn-primary">Daftarkan Dokumen</button>
+    <p id="uploadResult" style="margin-top: 15px; font-size: 14px;"></p>
+</div>
         </section>
 
         <section id="statusSection" style="display:none;">
