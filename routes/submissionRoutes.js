@@ -2,14 +2,27 @@ const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/uploadMiddleware");
 const authenticateToken = require("../middleware/AuthMiddleware");
+const optionalAuthenticateToken = require("../middleware/optionalAuthMiddleware");
 const submissionController = require("../controllers/submissionController");
 const authorizeRole = require("../middleware/roleMiddleware");
 
 router.post(
   "/submit",
-  authenticateToken,
+  optionalAuthenticateToken,
   upload.single("image"),
   submissionController.submitImage
+);
+
+router.get(
+  "/my-submissions",
+  authenticateToken,
+  submissionController.getMySubmissions
+);
+
+router.get(
+  "/guest-quota",
+  optionalAuthenticateToken,
+  submissionController.getGuestQuota
 );
 
 router.put(

@@ -37,6 +37,14 @@ const getSubmissionById = (id, callback) => {
   );
 };
 
+const getSubmissionsByUserId = (userId, callback) => {
+  db.query(
+    "SELECT * FROM submissions WHERE submitted_by = ? ORDER BY created_at DESC",
+    [userId],
+    callback
+  );
+};
+
 const getSubmissionStats = (callback) => {
   db.query(
     `SELECT 
@@ -54,5 +62,6 @@ module.exports = {
   getAllSubmissions,
   getSubmissionsByStatus,
   getSubmissionById,
+  getSubmissionsByUserId,
   getSubmissionStats
 };
